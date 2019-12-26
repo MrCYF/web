@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>springboot-thymeleaf demo</title>
+</head>
+<script th:inline="javascript">
+    var ctx = [[@{/}]];
+</script>
+<body>
+<form id="signupForm">
+    <h4 class="no-margins">用户登录</h4>
+    <p class="m-t-md"></p>
+    <div class=" input ">
+        <div class="uname labelIcon"></div>
+        <input type="text" name="username" class="form-control " placeholder="用户名"/>
+    </div>
+    <div class=" input  ">
+        <div class="pword labelIcon"></div>
+        <input type="password" name="password" class="form-control" placeholder="密码"/>
+    </div>
+
+    <button onclick="login()" data-loading="正在验证登录，请稍后...">登录</button>
+</form>
+
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:inline="javascript">
+    function login() {
+        var username = $("input[name='username']").val();
+        var password = $("input[name='password']").val();
+
+        $.ajax({
+            type: "post",
+            url: ctx + "login",
+            data: {
+                "username": username,
+                "password": password
+            },
+            success: function (r) {
+                if (r.code == 0) {
+                    location.href = ctx + 'crm/hello';
+                } else {
+                    if (r.msg == null || r.msg == undefined) {
+                        location.href = ctx + 'index';
+                    } else {
+                        $('.imgcode').click();
+                        $(".code").val("");
+                        layer.msg(r.msg);
+                    }
+                }
+            }
+        });
+    }
+</script>
+</html>

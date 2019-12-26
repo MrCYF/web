@@ -1,0 +1,67 @@
+spring:
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
+    cache: false
+  datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      url: jdbc:oracle:thin:@222.7.172.133:15021:orcl
+      username: cry
+      password: cryyser
+      initialSize: 5
+      minIdle: 5
+      maxActive: 50
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      maxEvictableIdleTimeMillis: 900000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 50
+      statViewServlet:
+        enabled: true
+        url-pattern: /monitor/druid/*
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+        # 监控过滤器
+      web-stat-filter:
+        enabled: true
+        exclusions:
+        - "*.js"
+        - "*.gif"
+        - "*.jpg"
+        - "*.png"
+        - "*.css"
+        - "*.ico"
+        - "/monitor/druid/*"
+mybatis:
+  typeAliasesPackage: com.fan
+  mapperLocations: classpath*:mapper/*Mapper.xml
+  # configLocation: classpath:mapper/mybatis-config.xml
+
+
+# 日志配置
+logging:
+  level:
+    com.fan: debug
+    org.springframework: WARN
+    org.spring.springboot.dao: debug
+
+# Shiro
+shiro:
+  user:
+    # 登录地址
+    loginUrl: /login
+    # 权限认证失败地址
+    unauthorizedUrl: /unauth
